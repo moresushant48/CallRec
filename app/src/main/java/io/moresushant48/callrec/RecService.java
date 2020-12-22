@@ -12,8 +12,8 @@ import androidx.core.app.NotificationCompat;
 
 public class RecService extends Service {
 
-    private static final String ACTION_IN = "android.intent.action.PHONE_STATE";
-    private static final String ACTION_OUT = "android.intent.action.NEW_OUTGOING_CALL";
+    public static final String ACTION_IN = "android.intent.action.PHONE_STATE";
+    public static final String ACTION_OUT = "android.intent.action.NEW_OUTGOING_CALL";
 
     @Nullable
     @Override
