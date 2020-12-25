@@ -34,6 +34,10 @@ public class CallBr extends BroadcastReceiver {
 
     }
 
+    /*
+    *   SETUP THE MEDIARECORDER (@MediaRecorder) FOR FURTHER RECORDINGS.
+    * */
+
     private void recorderSetup() {
         recorder = new MediaRecorder();
         recorder.reset();
@@ -43,6 +47,12 @@ public class CallBr extends BroadcastReceiver {
         recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
     }
+
+    /*
+    *   UNDERSTAND AND DECIDE THE BROADCAST ACTIONS
+    *   @ACTION_IN - INCOMING CALL, EXECUTING @inComingCallAction
+    *   @ACTION_OUT - OUTGOING CALL, EXECUTING @outGoingCallAction
+    * */
 
     private void recordAndSave(Context context, Intent intent) {
 
@@ -58,6 +68,10 @@ public class CallBr extends BroadcastReceiver {
             outGoingCallAction(context, intent);
         }
     }
+
+    /*
+    *   PERFORM ACTIONS RELATED TO @ACTION_IN.
+    * */
 
     private void inComingCallAction(Context context, Intent intent) {
         if((bundle = intent.getExtras()) != null) {
@@ -101,6 +115,10 @@ public class CallBr extends BroadcastReceiver {
             }
         }
     }
+
+    /*
+     *   PERFORM ACTIONS RELATED TO @ACTION_OUT.
+     * */
 
     private void outGoingCallAction(Context context, Intent intent) {
         if((bundle = intent.getExtras()) != null) {

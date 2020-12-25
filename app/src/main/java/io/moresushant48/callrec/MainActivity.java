@@ -34,6 +34,27 @@ public class MainActivity extends AppCompatActivity {
         ContextCompat.startForegroundService(this, new Intent(this, RecService.class));
     }
 
+
+    /*
+    *   CREATE STORAGE DIRECTORY, IF DOSEN'T EXIST ALREADY.
+    * */
+
+    private void createAppDirIfNotExists() {
+
+        // Create dir if dosen't exist.
+        if(!rootFolder.exists())
+            if(rootFolder.mkdirs())
+                Log.e("DIR", "Created");
+            else
+                Log.e("DIR", "Cant create");
+
+    }
+
+    /*
+    *   GET USER PERMISSIONS.
+    *   START
+    * */
+
     private void checkForPermissions() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) +
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) +
@@ -77,17 +98,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void createAppDirIfNotExists() {
-
-        // Create dir if dosen't exist.
-        if(!rootFolder.exists())
-            if(rootFolder.mkdirs())
-                Log.e("DIR", "Created");
-            else
-                Log.e("DIR", "Cant create");
-
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -101,4 +111,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    /*
+     *   GET USER PERMISSIONS.
+     *   END
+     * */
 }

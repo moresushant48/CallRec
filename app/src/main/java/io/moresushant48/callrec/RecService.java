@@ -24,10 +24,22 @@ public class RecService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        setNotificationAndStartForeground();
+
+        registerReceiversForCallRec();
+
+        return START_NOT_STICKY;
+    }
+
+    /*
+    *   SET NOTIFICATION AND START FOREGROUND SERVICE.
+    * */
+
+    private void setNotificationAndStartForeground() {
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
-
 
         Notification notification = new NotificationCompat.Builder(this, App.CHANNEL_ID)
                 .setContentTitle("CallRec")
@@ -36,6 +48,14 @@ public class RecService extends Service {
                 .build();
 
         startForeground(1, notification);
+    }
+
+    /*
+    *   REGISTER CALL BROADCAST (@CallBr),
+    *   TO RECEIVE INCOMING (@ACTION_IN) AND OUTGOING (@ACTION_OUT) CALLS.
+    * */
+
+    private void registerReceiversForCallRec() {
 
         CallBr callBr = new CallBr();
 
@@ -44,7 +64,5 @@ public class RecService extends Service {
         intentFilter.addAction(ACTION_OUT);
 
         registerReceiver(callBr, intentFilter);
-
-        return START_NOT_STICKY;
     }
 }
