@@ -11,8 +11,13 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+
+import io.moresushant48.callrec.Helpers.GetCurrentDateTime;
 
 public class CallBr extends BroadcastReceiver {
+
+    final private static String AUDIO_EXTENSION = ".amr";
 
     MediaRecorder recorder;
     private boolean recordStarted = false;
@@ -62,7 +67,6 @@ public class CallBr extends BroadcastReceiver {
 
                 inCall = bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 wasRinging = true;
-                Toast.makeText(context, "IN : " + inCall, Toast.LENGTH_LONG).show();
 
             }
             else if(state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
@@ -72,7 +76,7 @@ public class CallBr extends BroadcastReceiver {
                     Toast.makeText(context, "ANSWERED", Toast.LENGTH_LONG).show();
                     recorderSetup();
 
-                    recorder.setOutputFile(MainActivity.rootFolder.getPath() + File.separator + "InAudioRec.amr");
+                    recorder.setOutputFile(MainActivity.rootFolder.getPath() + File.separator + "IN-" + GetCurrentDateTime.getCurrentDateTime() + AUDIO_EXTENSION);
                     Log.e("Filename",MainActivity.rootFolder.getPath());
 
                     try {
@@ -106,7 +110,7 @@ public class CallBr extends BroadcastReceiver {
 
             recorderSetup();
 
-            recorder.setOutputFile(MainActivity.rootFolder.getPath() + File.separator + "OutAudioRec.amr");
+            recorder.setOutputFile(MainActivity.rootFolder.getPath() + File.separator + "OUT-" + GetCurrentDateTime.getCurrentDateTime() + AUDIO_EXTENSION);
             Log.e("Filename", MainActivity.rootFolder.getPath());
 
             try {
