@@ -5,6 +5,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.content.Intent;
@@ -12,14 +15,23 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 
+import io.moresushant48.callrec.Adapters.RecordingsAdapter;
+import io.moresushant48.callrec.Helpers.GetRecordings;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
-    public  static final File rootFolder = new File(Environment.getExternalStorageDirectory() + File.separator + "CallRec");
+    public static final File rootFolder = new File(Environment.getExternalStorageDirectory() + File.separator + "CallRec");
+
+    private RecordingsAdapter recordingsAdapter;
+    private SwipeRefreshLayout refreshRecordings;
+    private RecyclerView rvRecordings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +42,42 @@ public class MainActivity extends AppCompatActivity {
 
         createAppDirIfNotExists();
 
-        // Call Service
+        // Call Service.
         ContextCompat.startForegroundService(this, new Intent(this, RecService.class));
+
+        // Setup Refresh listener.
+        refreshRecordings = findViewById(R.id.refreshRecordings);
+        refreshRecordings.setOnRefreshListener(this::feedRecordings);
+
+        // Setup Recordings ListView.
+        rvRecordings = findViewById(R.id.rvRecordings);
+
+        // Finally Feed the Recordings to listView.
+        feedRecordings();
     }
 
+    /*
+     *   Setup @arrayAdapter.
+     *   Set Adapter for @lvRecordings
+     * */
+
+    private void feedRecordings() {
+        // Populate the ListView with Recordings.
+        recordingsAdapter = new RecordingsAdapter(this, GetRecordings.getRecordings());
+        rvRecordings.setAdapter(recordingsAdapter);
+        rvRecordings.setLayoutManager(new LinearLayoutManager(this));
+        refreshRecordings.setRefreshing(false);
+    }
 
     /*
-    *   CREATE STORAGE DIRECTORY, IF DOSEN'T EXIST ALREADY.
-    * */
+     *   CREATE STORAGE DIRECTORY, IF DOSEN'T EXIST ALREADY.
+     * */
 
     private void createAppDirIfNotExists() {
 
         // Create dir if dosen't exist.
-        if(!rootFolder.exists())
-            if(rootFolder.mkdirs())
+        if (!rootFolder.exists())
+            if (rootFolder.mkdirs())
                 Log.e("DIR", "Created");
             else
                 Log.e("DIR", "Cant create");
@@ -51,20 +85,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    *   GET USER PERMISSIONS.
-    *   START
-    * */
+     *   GET USER PERMISSIONS.
+     *   START
+     * */
 
     private void checkForPermissions() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) +
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) +
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) +
                 ContextCompat.checkSelfPermission(this, Manifest.permission.PROCESS_OUTGOING_CALLS) +
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED) {
 
             // WHEN PERMISSION IS NOT GRANTED.
 
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO) ||
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.PROCESS_OUTGOING_CALLS) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -101,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if(requestCode == REQUEST_CODE) {
-            if(grantResults.length > 0 && (grantResults[0] + grantResults[1] + grantResults[2] + grantResults[3] == PackageManager.PERMISSION_GRANTED)) {
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && (grantResults[0] + grantResults[1] + grantResults[2] + grantResults[3] == PackageManager.PERMISSION_GRANTED)) {
                 Toast.makeText(this, "Permissions Granted.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Permissions Denied. Application cannot work.", Toast.LENGTH_SHORT).show();

@@ -17,7 +17,7 @@ import io.moresushant48.callrec.Helpers.GetCurrentDateTime;
 
 public class CallBr extends BroadcastReceiver {
 
-    final private static String AUDIO_EXTENSION = ".amr";
+    final public static String AUDIO_EXTENSION = ".amr";
 
     MediaRecorder recorder;
     private boolean recordStarted = false;
