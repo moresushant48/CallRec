@@ -3,7 +3,6 @@
     android:id="@+id/play_selected_media"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
     android:orientation="vertical"
     android:padding="18dp">
 
@@ -25,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:layout_weight="5"
-            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
 
