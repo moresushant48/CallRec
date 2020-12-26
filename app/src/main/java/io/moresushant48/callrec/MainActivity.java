@@ -20,6 +20,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
     private ArrayList<HashMap<String, String>> listRecordings;
     private SwipeRefreshLayout refreshRecordings;
     private RecyclerView rvRecordings;
+    private LinearLayout noDataFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
         refreshRecordings = findViewById(R.id.refreshRecordings);
         refreshRecordings.setOnRefreshListener(this::feedRecordings);
 
+        // No data found.
+        noDataFound = findViewById(R.id.noDataFound);
+
         // Setup Recordings ListView.
         rvRecordings = findViewById(R.id.rvRecordings);
 
@@ -72,6 +79,16 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
     private void feedRecordings() {
         // Populate the ListView with Recordings.
         listRecordings = GetRecordings.getRecordings();
+
+        // Display Views According to Recording availability.
+        if (listRecordings.isEmpty()) {
+            rvRecordings.setVisibility(View.GONE);
+            noDataFound.setVisibility(View.VISIBLE);
+        } else {
+            rvRecordings.setVisibility(View.VISIBLE);
+            noDataFound.setVisibility(View.GONE);
+        }
+
         recordingsAdapter = new RecordingsAdapter(this, listRecordings, this);
         rvRecordings.setAdapter(recordingsAdapter);
         rvRecordings.setLayoutManager(new LinearLayoutManager(this));
