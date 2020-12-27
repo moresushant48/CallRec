@@ -95,6 +95,9 @@ public class PlaySelectedMedia extends BottomSheetDialogFragment {
             if (mediaPlayer != null) {
                 mediaPlayer.setDataSource("file://" + path);
                 mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(mp -> {
+                    seekBar.setMax(mediaPlayer.getDuration());
+                });
                 mediaPlayer.start();
             }
         } catch (IOException e) {
@@ -102,10 +105,6 @@ public class PlaySelectedMedia extends BottomSheetDialogFragment {
         }
 
         // SeekBar Setup
-
-        if (mediaPlayer != null) {
-            seekBar.setMax(mediaPlayer.getDuration());
-        }
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
