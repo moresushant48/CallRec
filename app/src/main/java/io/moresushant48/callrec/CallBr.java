@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import io.moresushant48.callrec.Helpers.GetCurrentDateTime;
 

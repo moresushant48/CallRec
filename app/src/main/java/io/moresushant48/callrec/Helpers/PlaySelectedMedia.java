@@ -136,8 +136,8 @@ public class PlaySelectedMedia extends BottomSheetDialogFragment {
     }
 
     /*
-    *   STOP MEDIA PLAYER
-    * */
+     *   STOP MEDIA PLAYER
+     * */
 
     private void stop() {
         if (mediaPlayer != null) {

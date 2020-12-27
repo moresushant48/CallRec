@@ -10,13 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -24,11 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -121,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
     }
 
     /*
-    *   OPTIONS MENU
-    * */
+     *   OPTIONS MENU
+     * */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,10 +127,10 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.menu_settings :
+            case R.id.menu_settings:
                 Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.menu_about :
+            case R.id.menu_about:
                 Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
                 break;
 
