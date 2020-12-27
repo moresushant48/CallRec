@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
 
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.menu_about:
                 Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
