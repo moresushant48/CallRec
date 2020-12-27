@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="No Recordings Found."
-                    android:textSize="22sp"/>
+                    android:textSize="22sp" />
 
             </LinearLayout>
         </LinearLayout>

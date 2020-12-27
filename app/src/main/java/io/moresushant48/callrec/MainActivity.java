@@ -20,6 +20,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
 
     private RecordingsAdapter recordingsAdapter;
     private ArrayList<HashMap<String, String>> listRecordings;
+
     private SwipeRefreshLayout refreshRecordings;
     private RecyclerView rvRecordings;
     private LinearLayout noDataFound;
@@ -115,6 +118,33 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
             else
                 Log.e("DIR", "Cant create");
 
+    }
+
+    /*
+    *   OPTIONS MENU
+    * */
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_settings :
+                Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_about :
+                Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /*
